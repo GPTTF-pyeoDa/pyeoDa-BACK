@@ -5,7 +5,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'http://localhost:3001', // Next.js FE의 URL
+    origin: ['http://localhost:3000', 'http://localhost:3001'], // Next.js FE의 URL
     credentials: true,
   });
 
