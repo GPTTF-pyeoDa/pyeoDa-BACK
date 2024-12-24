@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { PrismaClient, User as PrismaUser } from '@prisma/client';
-import { UserRepository } from 'src/domain/repositories/user.repository';
+import { UserRepository } from '../../domain/repositories/user.repository';
 import { User } from '../../domain/entities/user.entity';
 
 @Injectable()
@@ -21,9 +21,9 @@ export class PrismaService
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findById(memID: string): Promise<User | null> {
     const user: PrismaUser | null = await this.prisma.user.findUnique({
-      where: { email },
+      where: { memID },
     });
     if (!user) return null;
     return new User(user.memID, user.email, user.password, user.name);
@@ -32,16 +32,17 @@ export class PrismaUserRepository implements UserRepository {
   async create(user: User): Promise<User> {
     const createdUser: PrismaUser = await this.prisma.user.create({
       data: {
-        email: user.email,
+        memID: user.memID,
         password: user.password,
         name: user.name,
+        email: user.email,
       },
     });
     return new User(
       createdUser.memID,
-      createdUser.email,
       createdUser.password,
       createdUser.name,
+      createdUser.email,
     );
   }
 }
