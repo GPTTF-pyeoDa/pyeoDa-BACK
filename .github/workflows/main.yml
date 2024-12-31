@@ -3,11 +3,6 @@ name: GPT Code Review
 on:
   pull_request:
     types: [opened, reopened, synchronize]
-    paths:
-      - '!package.json'
-      - '!package-lock.json'
-      - '!.gitignore'
-      - '!public/**'
 
 permissions:
   pull-requests: write
