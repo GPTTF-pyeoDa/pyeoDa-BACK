@@ -22,11 +22,19 @@ export interface UserRepository {
   create(user: User): Promise<User>;
 
   /**
-   * ID를 기반으로 사용자를 조회합니다.
-   * @param id - 조회할 사용자 ID
-   * @returns 해당 ID를 가진 User 엔티티 또는 null
+   * memID를 기반으로 사용자를 조회합니다.
+   * @param memID - 조회할 사용자 memID
+   * @returns 해당 memID를 가진 User 엔티티 또는 null
    */
-  findById(id: string): Promise<User | null>;
+  findByMemID(memID: string): Promise<User | null>;
+
+  /**
+   * 비밀번호를 검증합니다.
+   * @param password - 평문 비밀번호
+   * @param hashedPassword - 해시된 비밀번호
+   * @returns 검증 결과 (true/false)
+   */
+  validatePassword(password: string, hashedPassword: string): Promise<boolean>;
 
   /**
    * 사용자의 정보를 업데이트합니다.

@@ -17,7 +17,7 @@ export class RegisterUserUseCase {
   async execute(createUserDto: CreateUserDto): Promise<User> {
     const { memID, password, name, email } = createUserDto;
 
-    const existingMemID = await this.userRepository.findById(memID);
+    const existingMemID = await this.userRepository.findByMemID(memID);
     if (existingMemID) {
       throw new Error('이미 존재하는 ID입니다.');
     }

@@ -1,7 +1,9 @@
+// USER_REPOSITORY 구현체
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { PrismaClient, User as PrismaUser } from '@prisma/client';
 import { UserRepository } from '../../domain/repositories/user.repository';
 import { User } from '../../domain/entities/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class PrismaService
@@ -21,12 +23,12 @@ export class PrismaService
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findById(memID: string): Promise<User | null> {
+  async findByMemID(memID: string): Promise<User | null> {
     const user: PrismaUser | null = await this.prisma.user.findUnique({
       where: { memID },
     });
     if (!user) return null;
-    return new User(user.memID, user.email, user.password, user.name);
+    return new User(user.memID, user.password, user.name, user.email);
   }
 
   async create(user: User): Promise<User> {
@@ -44,5 +46,12 @@ export class PrismaUserRepository implements UserRepository {
       createdUser.name,
       createdUser.email,
     );
+  }
+
+  async validatePassword(
+    password: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return bcrypt.compare(password, hashedPassword);
   }
 }
