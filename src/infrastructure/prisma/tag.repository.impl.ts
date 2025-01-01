@@ -40,4 +40,13 @@ export class TagRepositoryImpl implements TagRepository {
 
     return [tags.map((tag) => new Tag(tag.id, tag.name, tag.createdAt)), total];
   }
+
+  async findMostRecent(): Promise<Tag | null> {
+    const tag = await this.prisma.tag.findFirst({
+      orderBy: { createdAt: 'desc' }, // 가장 최근 생성된 글감 조회
+    });
+
+    if (!tag) return null;
+    return new Tag(tag.id, tag.name, tag.createdAt);
+  }
 }

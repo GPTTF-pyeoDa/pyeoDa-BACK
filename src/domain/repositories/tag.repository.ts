@@ -7,4 +7,5 @@ export interface TagRepository {
     offset: number,
     search?: string,
   ): Promise<[Tag[], number]>;
+  findMostRecent(): Promise<Tag | null>; // 가장 최근 글감 조회
 }
