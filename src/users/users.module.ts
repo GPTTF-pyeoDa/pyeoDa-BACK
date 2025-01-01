@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UsersController } from '../presentation/controllers/users.controller';
 import { RegisterUserUseCase } from '../application/use-cases/register-user.usecase';
-import { LoginUserUseCase } from 'src/application/use-cases/login-user.usecase';
+import { LoginUserUseCase } from '../application/use-cases/login-user.usecase';
 import { PrismaModule } from '../infrastructure/prisma/prisma.module'; // PrismaModule 가져오기
 import { USER_REPOSITORY } from '../domain/repositories/user.repository';
 import { JwtModule } from '@nestjs/jwt';

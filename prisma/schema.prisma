@@ -12,4 +12,11 @@ model User {
   password  String
   name      String?
   email     String
+  createdAt DateTime @default(now())
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
 }
