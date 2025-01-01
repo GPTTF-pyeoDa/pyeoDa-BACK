@@ -26,10 +26,13 @@ export class UsersController {
   @Post('login')
   async login(
     @Body() loginUserDto: LoginUserDto,
-  ): Promise<{ message: string }> {
+  ): Promise<{ token: string; message: string }> {
     try {
-      await this.loginUserUseCase.execute(loginUserDto);
-      return { message: '로그인이 완료되었습니다.' };
+      const data = await this.loginUserUseCase.execute(loginUserDto);
+      return {
+        token: data.accessToken,
+        message: '로그인이 완료되었습니다.',
+      };
     } catch (error) {
       throw new BadRequestException(error.message);
     }

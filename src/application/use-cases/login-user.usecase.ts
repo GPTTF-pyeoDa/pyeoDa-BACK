@@ -34,7 +34,7 @@ export class LoginUserUseCase {
     }
 
     // JWT 토큰 발급
-    const payload = { sub: user.memID, email: user.email };
+    const payload = { memID: user.memID, name: user.name, email: user.email };
     const accessToken = this.jwtService.sign(payload);
 
     return { accessToken };
