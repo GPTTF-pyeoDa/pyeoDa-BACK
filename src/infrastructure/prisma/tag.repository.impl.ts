@@ -22,4 +22,22 @@ export class TagRepositoryImpl implements TagRepository {
       throw new Error('Unable to save the tag');
     }
   }
+
+  async findAll(
+    limit: number,
+    offset: number,
+    search?: string,
+  ): Promise<[Tag[], number]> {
+    const where = search ? { name: { contains: search } } : {};
+    const tags = await this.prisma.tag.findMany({
+      where,
+      skip: offset,
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const total = await this.prisma.tag.count({ where });
+
+    return [tags.map((tag) => new Tag(tag.id, tag.name, tag.createdAt)), total];
+  }
 }
