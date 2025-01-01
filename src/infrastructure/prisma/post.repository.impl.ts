@@ -46,4 +46,25 @@ export class PostRepositoryImpl implements PostRepository {
 
     return posts;
   }
+
+  async findById(id: string): Promise<Post | null> {
+    const post = await this.prisma.post.findUnique({
+      where: { id },
+    });
+
+    if (!post) {
+      return null;
+    }
+
+    return new Post(
+      post.id,
+      post.title,
+      post.content,
+      post.isPublic,
+      post.memID,
+      post.tagId,
+      post.createdAt,
+      post.updatedAt,
+    );
+  }
 }
