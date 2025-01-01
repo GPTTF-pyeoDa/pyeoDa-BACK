@@ -14,7 +14,7 @@ export class TagSchedulerService {
   //   @Cron('*/5 * * * *') // 매 5분마다 실행
   async generateDailyTag() {
     const prompt =
-      '오늘의 글감을 추천해주세요. 창의적이고 간결한 글감으로 한 단어로 답을 해주세요';
+      '오늘의 글감을 추천해주세요. 한 단어로 감성적이면서 간결한 글감을 제공해주세요.';
     const tagName = await this.openAiService.getTagSuggestion(prompt);
     await this.generateTagUseCase.execute(tagName);
     console.log(`추천된 글감: ${tagName}`);
@@ -22,7 +22,8 @@ export class TagSchedulerService {
 
   @Cron('*/5 * * * *') // 5분마다 실행
   async generateTagEveryFiveMinutes() {
-    const prompt = '테스트를 위해 글감을 추천해주세요. 한 단어로 답을 해주세요';
+    const prompt =
+      '테스트를 위해 글감을 추천해주세요. 한 단어로 감성적이면서 간결한 글감을 제공해주세요.';
     const suggestion = await this.openAiService.getTagSuggestion(prompt);
     await this.generateTagUseCase.execute(suggestion);
     console.log(`추천된 글감 (테스트): ${suggestion}`);
