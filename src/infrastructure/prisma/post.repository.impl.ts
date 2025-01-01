@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { Post } from '../../domain/entities/post.entity';
 import { PostRepository } from '../../domain/repositories/post.repository';
+import { PostWithTagDto } from '../../application/dto/post-with-tag.dto';
 
 @Injectable()
 export class PostRepositoryImpl implements PostRepository {
@@ -47,22 +48,26 @@ export class PostRepositoryImpl implements PostRepository {
     return posts;
   }
 
-  async findById(id: string): Promise<Post | null> {
+  async findById(id: string): Promise<PostWithTagDto | null> {
     const post = await this.prisma.post.findUnique({
       where: { id },
+      include: {
+        tag: { select: { name: true } },
+      },
     });
 
     if (!post) {
       return null;
     }
 
-    return new Post(
+    return new PostWithTagDto(
       post.id,
       post.title,
       post.content,
       post.isPublic,
       post.memID,
       post.tagId,
+      post.tag?.name || null,
       post.createdAt,
       post.updatedAt,
     );
