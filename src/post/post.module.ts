@@ -7,8 +7,11 @@ import { PostRepositoryImpl } from '../infrastructure/prisma/post.repository.imp
 import { PrismaService } from '../infrastructure/prisma/prisma.service';
 import { DeletePostUseCase } from 'src/application/use-cases/delete-post.usecase';
 import { UpdatePostUseCase } from '../application/use-cases/update-post.usecase';
+import { GenerateWritingFeedbackUseCase } from 'src/application/use-cases/generate-writing-feedback.usecase';
+import { OpenAiModule } from '../infrastructure/openai/openai.module';
 
 @Module({
+  imports: [OpenAiModule],
   controllers: [PostController],
   providers: [
     PrismaService,
@@ -18,6 +21,7 @@ import { UpdatePostUseCase } from '../application/use-cases/update-post.usecase'
     FindPostByIdUseCase,
     DeletePostUseCase,
     UpdatePostUseCase,
+    GenerateWritingFeedbackUseCase,
   ],
 })
 export class PostModule {}

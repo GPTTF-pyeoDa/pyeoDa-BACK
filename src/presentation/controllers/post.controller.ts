@@ -13,6 +13,7 @@ import { FindPostsByMemIdUseCase } from '../../application/use-cases/find-posts-
 import { FindPostByIdUseCase } from 'src/application/use-cases/find-post-by-id.usecase';
 import { DeletePostUseCase } from 'src/application/use-cases/delete-post.usecase';
 import { UpdatePostUseCase } from 'src/application/use-cases/update-post.usecase';
+import { GenerateWritingFeedbackUseCase } from 'src/application/use-cases/generate-writing-feedback.usecase';
 
 @Controller('posts')
 export class PostController {
@@ -22,6 +23,7 @@ export class PostController {
     private readonly findPostByIdUseCase: FindPostByIdUseCase,
     private readonly deletePostUseCase: DeletePostUseCase,
     private readonly updatePostUseCase: UpdatePostUseCase,
+    private readonly generateFeedbackUseCase: GenerateWritingFeedbackUseCase,
   ) {}
 
   @Post()
@@ -63,5 +65,11 @@ export class PostController {
     updateData: { title?: string; content?: string; isPublic?: boolean },
   ) {
     return await this.updatePostUseCase.execute(id, updateData);
+  }
+
+  @Post(':id/feedback') // POST /posts/:id/feedback
+  async generateFeedback(@Body('content') content: string) {
+    const feedback = await this.generateFeedbackUseCase.execute(content);
+    return { feedback };
   }
 }
