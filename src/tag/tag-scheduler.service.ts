@@ -14,7 +14,7 @@ export class TagSchedulerService {
   //   @Cron('*/5 * * * *') // 매 5분마다 실행
   async generateDailyTag() {
     const prompt =
-      '오늘의 글감을 추천해주세요. 한 단어로 간결한 글감을 제공해주세요.';
+      '오늘의 글감을 추천해주세요. 한 단어로 간결한 글감을 제공해주세요. 글감에 특수문자는 제외해주세요.';
     const tagName = await this.openAiService.getTagSuggestion(prompt);
     if (tagName) {
       await this.generateTagUseCase.execute(tagName);
