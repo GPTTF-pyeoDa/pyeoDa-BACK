@@ -6,4 +6,5 @@ export interface PostRepository {
   findById(id: string): Promise<Post | null>;
   deleteById(id: string): Promise<void>;
   updateById(id: string, updateData: Partial<Post>): Promise<Post>;
+  findAllPublicPostsByTagId(tagId: string): Promise<Post[]>;
 }

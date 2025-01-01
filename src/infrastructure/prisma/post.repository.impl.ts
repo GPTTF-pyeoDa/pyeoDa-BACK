@@ -96,4 +96,35 @@ export class PostRepositoryImpl implements PostRepository {
       updatedPost.updatedAt,
     );
   }
+
+  async findAllPublicPostsByTagId(tagId: string): Promise<Post[]> {
+    const posts = await this.prisma.post.findMany({
+      where: {
+        tagId,
+        isPublic: true, // 공개 글만 조회
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        memID: true,
+        createdAt: true,
+      },
+    });
+    console.log('test: ', posts);
+
+    return posts.map(
+      (post) =>
+        new Post(
+          post.id,
+          post.title,
+          post.content,
+          true, // isPublic
+          post.memID, // memID는 생략
+          tagId,
+          post.createdAt,
+          new Date(),
+        ),
+    );
+  }
 }

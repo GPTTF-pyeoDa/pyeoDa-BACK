@@ -8,12 +8,14 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
+import { Post as PostEntity } from '../../domain/entities/post.entity';
 import { CreatePostUseCase } from '../../application/use-cases/create-post.usecase';
 import { FindPostsByMemIdUseCase } from '../../application/use-cases/find-posts-by-memid.usecase';
 import { FindPostByIdUseCase } from 'src/application/use-cases/find-post-by-id.usecase';
 import { DeletePostUseCase } from 'src/application/use-cases/delete-post.usecase';
 import { UpdatePostUseCase } from 'src/application/use-cases/update-post.usecase';
 import { GenerateWritingFeedbackUseCase } from 'src/application/use-cases/generate-writing-feedback.usecase';
+import { FindPublicPostsByTagIdUseCase } from 'src/application/use-cases/find-public-posts-by-tag-id.usecase';
 
 @Controller('posts')
 export class PostController {
@@ -24,6 +26,7 @@ export class PostController {
     private readonly deletePostUseCase: DeletePostUseCase,
     private readonly updatePostUseCase: UpdatePostUseCase,
     private readonly generateFeedbackUseCase: GenerateWritingFeedbackUseCase,
+    private readonly findPublicPostsByTagIdUseCase: FindPublicPostsByTagIdUseCase,
   ) {}
 
   @Post()
@@ -71,5 +74,12 @@ export class PostController {
   async generateFeedback(@Body('content') content: string) {
     const feedback = await this.generateFeedbackUseCase.execute(content);
     return { feedback };
+  }
+
+  @Get('tag/:tagId') // GET /posts/:tagId
+  async getPublicPostsByTagId(
+    @Param('tagId') tagId: string,
+  ): Promise<PostEntity[]> {
+    return await this.findPublicPostsByTagIdUseCase.execute(tagId);
   }
 }

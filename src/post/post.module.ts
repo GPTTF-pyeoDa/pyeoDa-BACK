@@ -9,6 +9,7 @@ import { DeletePostUseCase } from 'src/application/use-cases/delete-post.usecase
 import { UpdatePostUseCase } from '../application/use-cases/update-post.usecase';
 import { GenerateWritingFeedbackUseCase } from 'src/application/use-cases/generate-writing-feedback.usecase';
 import { OpenAiModule } from '../infrastructure/openai/openai.module';
+import { FindPublicPostsByTagIdUseCase } from 'src/application/use-cases/find-public-posts-by-tag-id.usecase';
 
 @Module({
   imports: [OpenAiModule],
@@ -22,6 +23,7 @@ import { OpenAiModule } from '../infrastructure/openai/openai.module';
     DeletePostUseCase,
     UpdatePostUseCase,
     GenerateWritingFeedbackUseCase,
+    FindPublicPostsByTagIdUseCase,
   ],
 })
 export class PostModule {}
