@@ -1,14 +1,24 @@
-import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  BadRequestException,
+  Get,
+  Headers,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { RegisterUserUseCase } from '../../application/use-cases/register-user.usecase';
 import { LoginUserUseCase } from '../../application/use-cases/login-user.usecase';
 import { CreateUserDto } from '../../application/dto/create-user.dto';
 import { LoginUserDto } from '../../application/dto/login-user.dto';
+import { VerifyAuthUseCase } from '../../application/use-cases/verify-auth.usecase';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly registerUserUseCase: RegisterUserUseCase,
     private readonly loginUserUseCase: LoginUserUseCase,
+    private readonly verifyAuthUseCase: VerifyAuthUseCase,
   ) {}
 
   @Post('register')
@@ -35,6 +45,31 @@ export class UsersController {
       };
     } catch (error) {
       throw new BadRequestException(error.message);
+    }
+  }
+
+  @Get('verify')
+  async verifyAuth(@Headers('authorization') auth: string) {
+    try {
+      if (!auth || !auth.startsWith('Bearer ')) {
+        throw new UnauthorizedException('No token provided');
+      }
+
+      const token = auth.split(' ')[1];
+      const user = await this.verifyAuthUseCase.execute(token);
+
+      return {
+        isAuthenticated: true,
+        user: {
+          memID: user.memID,
+          email: user.email,
+          name: user.name,
+          // 필요한 사용자 정보만 반환
+        },
+      };
+    } catch (error) {
+      console.error(error);
+      throw new UnauthorizedException('Invalid token');
     }
   }
 }

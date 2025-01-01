@@ -5,6 +5,7 @@ import { LoginUserUseCase } from '../application/use-cases/login-user.usecase';
 import { PrismaModule } from '../infrastructure/prisma/prisma.module'; // PrismaModule 가져오기
 import { USER_REPOSITORY } from '../domain/repositories/user.repository';
 import { JwtModule } from '@nestjs/jwt';
+import { VerifyAuthUseCase } from '../application/use-cases/verify-auth.usecase';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { JwtModule } from '@nestjs/jwt';
   providers: [
     RegisterUserUseCase,
     LoginUserUseCase,
+    VerifyAuthUseCase,
     {
       provide: 'UserRepository', // RegisterUserUseCase에서 사용할 이름
       useExisting: USER_REPOSITORY, // PrismaModule에서 제공된 USER_REPOSITORY 사용
