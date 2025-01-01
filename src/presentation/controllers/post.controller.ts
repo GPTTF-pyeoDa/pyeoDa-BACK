@@ -11,7 +11,6 @@ export class PostController {
 
   @Post()
   async createPost(@Body() data: any) {
-    console.log('test', data);
     return await this.createPostUseCase.execute(data);
   }
 

@@ -14,7 +14,7 @@ export class PostRepositoryImpl implements PostRepository {
         title: post.title,
         content: post.content,
         isPublic: post.isPublic,
-        memID: post.memID, // User.memID 참조
+        memID: post.memID,
         tagId: post.tagId,
       },
     });
