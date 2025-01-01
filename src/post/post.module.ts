@@ -6,6 +6,7 @@ import { CreatePostUseCase } from '../application/use-cases/create-post.usecase'
 import { PostRepositoryImpl } from '../infrastructure/prisma/post.repository.impl';
 import { PrismaService } from '../infrastructure/prisma/prisma.service';
 import { DeletePostUseCase } from 'src/application/use-cases/delete-post.usecase';
+import { UpdatePostUseCase } from '../application/use-cases/update-post.usecase';
 
 @Module({
   controllers: [PostController],
@@ -16,6 +17,7 @@ import { DeletePostUseCase } from 'src/application/use-cases/delete-post.usecase
     FindPostsByMemIdUseCase,
     FindPostByIdUseCase,
     DeletePostUseCase,
+    UpdatePostUseCase,
   ],
 })
 export class PostModule {}

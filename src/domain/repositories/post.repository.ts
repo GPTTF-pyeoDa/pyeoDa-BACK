@@ -5,4 +5,5 @@ export interface PostRepository {
   findByMemId(memID: string): Promise<Partial<Post>[]>;
   findById(id: string): Promise<Post | null>;
   deleteById(id: string): Promise<void>;
+  updateById(id: string, updateData: Partial<Post>): Promise<Post>;
 }

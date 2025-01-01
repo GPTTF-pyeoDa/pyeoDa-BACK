@@ -6,11 +6,13 @@ import {
   Param,
   NotFoundException,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { CreatePostUseCase } from '../../application/use-cases/create-post.usecase';
 import { FindPostsByMemIdUseCase } from '../../application/use-cases/find-posts-by-memid.usecase';
 import { FindPostByIdUseCase } from 'src/application/use-cases/find-post-by-id.usecase';
 import { DeletePostUseCase } from 'src/application/use-cases/delete-post.usecase';
+import { UpdatePostUseCase } from 'src/application/use-cases/update-post.usecase';
 
 @Controller('posts')
 export class PostController {
@@ -19,6 +21,7 @@ export class PostController {
     private readonly findPostsByMemIdUseCase: FindPostsByMemIdUseCase,
     private readonly findPostByIdUseCase: FindPostByIdUseCase,
     private readonly deletePostUseCase: DeletePostUseCase,
+    private readonly updatePostUseCase: UpdatePostUseCase,
   ) {}
 
   @Post()
@@ -51,5 +54,14 @@ export class PostController {
       }
       throw error;
     }
+  }
+
+  @Put(':id') // PUT /posts/:id
+  async updatePostById(
+    @Param('id') id: string,
+    @Body()
+    updateData: { title?: string; content?: string; isPublic?: boolean },
+  ) {
+    return await this.updatePostUseCase.execute(id, updateData);
   }
 }

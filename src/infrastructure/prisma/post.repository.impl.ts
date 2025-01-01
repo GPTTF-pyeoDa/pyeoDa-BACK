@@ -73,4 +73,22 @@ export class PostRepositoryImpl implements PostRepository {
       where: { id },
     });
   }
+
+  async updateById(id: string, updateData: Partial<Post>): Promise<Post> {
+    const updatedPost = await this.prisma.post.update({
+      where: { id },
+      data: updateData,
+    });
+
+    return new Post(
+      updatedPost.id,
+      updatedPost.title,
+      updatedPost.content,
+      updatedPost.isPublic,
+      updatedPost.memID,
+      updatedPost.tagId,
+      updatedPost.createdAt,
+      updatedPost.updatedAt,
+    );
+  }
 }
