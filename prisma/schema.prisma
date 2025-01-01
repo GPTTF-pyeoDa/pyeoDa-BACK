@@ -13,10 +13,32 @@ model User {
   name      String?
   email     String
   createdAt DateTime @default(now())
+
+  posts     Post[]   @relation("UserPosts")
 }
 
 model Tag {
   id        String   @id @default(uuid())
   name      String
   createdAt DateTime @default(now())
+
+    posts     Post[]   @relation("TagPosts")
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  isPublic  Boolean
+
+  // User 관계
+  user      User     @relation("UserPosts", fields: [memID], references: [memID])
+  memID     String
+
+  // Tag 관계
+  tag       Tag?     @relation("TagPosts", fields: [tagId], references: [id])
+  tagId     String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
