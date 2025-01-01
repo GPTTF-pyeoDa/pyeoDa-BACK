@@ -14,7 +14,7 @@ export class PostController {
     return await this.createPostUseCase.execute(data);
   }
 
-  @Get(':memID/posts') // GET /users/:memID/posts
+  @Get(':memID') // GET /users/:memID/posts
   async getPostsByMemId(@Param('memID') memID: string) {
     return await this.findPostsByMemIdUseCase.execute(memID);
   }
