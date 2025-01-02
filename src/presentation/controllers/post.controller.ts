@@ -7,6 +7,7 @@ import {
   NotFoundException,
   Delete,
   Put,
+  Patch,
 } from '@nestjs/common';
 import { Post as PostEntity } from '../../domain/entities/post.entity';
 import { CreatePostUseCase } from '../../application/use-cases/create-post.usecase';
@@ -16,6 +17,7 @@ import { DeletePostUseCase } from 'src/application/use-cases/delete-post.usecase
 import { UpdatePostUseCase } from 'src/application/use-cases/update-post.usecase';
 import { GenerateWritingFeedbackUseCase } from 'src/application/use-cases/generate-writing-feedback.usecase';
 import { FindPublicPostsByTagIdUseCase } from 'src/application/use-cases/find-public-posts-by-tag-id.usecase';
+import { TogglePostPublicUseCase } from 'src/application/use-cases/toggle-is-public.usecase';
 
 @Controller('posts')
 export class PostController {
@@ -27,6 +29,7 @@ export class PostController {
     private readonly updatePostUseCase: UpdatePostUseCase,
     private readonly generateFeedbackUseCase: GenerateWritingFeedbackUseCase,
     private readonly findPublicPostsByTagIdUseCase: FindPublicPostsByTagIdUseCase,
+    private readonly togglePostPublicUseCase: TogglePostPublicUseCase,
   ) {}
 
   @Post()
@@ -81,5 +84,13 @@ export class PostController {
     @Param('tagId') tagId: string,
   ): Promise<PostEntity[]> {
     return await this.findPublicPostsByTagIdUseCase.execute(tagId);
+  }
+
+  @Patch(':id/toggle-public') // PATCH /posts/:id/toggle-public
+  async togglePostPublic(
+    @Param('id') postId: string,
+  ): Promise<{ id: string; isPublic: boolean }> {
+    const updatedPost = await this.togglePostPublicUseCase.execute(postId);
+    return { id: updatedPost.id, isPublic: updatedPost.isPublic };
   }
 }

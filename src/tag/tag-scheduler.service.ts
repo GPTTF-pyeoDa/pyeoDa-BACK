@@ -24,16 +24,16 @@ export class TagSchedulerService {
     }
   }
 
-  // @Cron('*/5 * * * *') // 5분마다 실행
-  // async generateTagEveryFiveMinutes() {
-  //   const prompt =
-  //     '테스트를 위해 글감을 추천해주세요. 한 단어로 간결한 글감을 제공해주세요.';
-  //   const tagName = await this.openAiService.getTagSuggestion(prompt);
-  //   if (tagName) {
-  //     await this.generateTagUseCase.execute(tagName);
-  //     console.log(`추천된 글감(테스트): ${tagName}`);
-  //   } else {
-  //     console.warn('추천된 테스용 글감이 없습니다.');
-  //   }
-  // }
+  @Cron('*/5 * * * *') // 5분마다 실행
+  async generateTagEveryFiveMinutes() {
+    const prompt =
+      '테스트를 위해 글감을 추천해주세요. 한 단어로 간결한 글감을 제공해주세요. 글감에 특수문자는 제외해주세요.';
+    const tagName = await this.openAiService.getTagSuggestion(prompt);
+    if (tagName) {
+      await this.generateTagUseCase.execute(tagName);
+      console.log(`추천된 글감(테스트): ${tagName}`);
+    } else {
+      console.warn('추천된 테스용 글감이 없습니다.');
+    }
+  }
 }

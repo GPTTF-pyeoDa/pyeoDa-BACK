@@ -16,7 +16,6 @@ export class CreatePostUseCase {
     memID: string;
     tagId?: string;
   }): Promise<Post> {
-    console.log(data);
     const post = new Post(
       uuid(),
       data.title,

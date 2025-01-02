@@ -111,7 +111,6 @@ export class PostRepositoryImpl implements PostRepository {
         createdAt: true,
       },
     });
-    console.log('test: ', posts);
 
     return posts.map(
       (post) =>
@@ -125,6 +124,30 @@ export class PostRepositoryImpl implements PostRepository {
           post.createdAt,
           new Date(),
         ),
+    );
+  }
+
+  async toggleIsPublic(postId: string): Promise<Post> {
+    const post = await this.prisma.post.findUnique({ where: { id: postId } });
+
+    if (!post) {
+      throw new Error('Post not found');
+    }
+
+    const updatedPost = await this.prisma.post.update({
+      where: { id: postId },
+      data: { isPublic: !post.isPublic },
+    });
+
+    return new Post(
+      updatedPost.id,
+      updatedPost.title,
+      updatedPost.content,
+      updatedPost.isPublic,
+      updatedPost.memID,
+      updatedPost.tagId,
+      updatedPost.createdAt,
+      updatedPost.updatedAt,
     );
   }
 }

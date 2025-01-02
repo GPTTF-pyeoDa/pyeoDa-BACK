@@ -10,6 +10,7 @@ import { UpdatePostUseCase } from '../application/use-cases/update-post.usecase'
 import { GenerateWritingFeedbackUseCase } from 'src/application/use-cases/generate-writing-feedback.usecase';
 import { OpenAiModule } from '../infrastructure/openai/openai.module';
 import { FindPublicPostsByTagIdUseCase } from 'src/application/use-cases/find-public-posts-by-tag-id.usecase';
+import { TogglePostPublicUseCase } from 'src/application/use-cases/toggle-is-public.usecase';
 
 @Module({
   imports: [OpenAiModule],
@@ -24,6 +25,7 @@ import { FindPublicPostsByTagIdUseCase } from 'src/application/use-cases/find-pu
     UpdatePostUseCase,
     GenerateWritingFeedbackUseCase,
     FindPublicPostsByTagIdUseCase,
+    TogglePostPublicUseCase,
   ],
 })
 export class PostModule {}

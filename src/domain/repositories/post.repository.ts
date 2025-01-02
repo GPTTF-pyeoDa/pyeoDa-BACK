@@ -7,4 +7,5 @@ export interface PostRepository {
   deleteById(id: string): Promise<void>;
   updateById(id: string, updateData: Partial<Post>): Promise<Post>;
   findAllPublicPostsByTagId(tagId: string): Promise<Post[]>;
+  toggleIsPublic(postId: string): Promise<Post>;
 }
