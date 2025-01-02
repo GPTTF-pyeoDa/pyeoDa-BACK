@@ -7,8 +7,10 @@ import { TagSchedulerService } from './tag-scheduler.service';
 import { PrismaService } from '../infrastructure/prisma/prisma.service';
 import { OpenAiService } from '../infrastructure/prisma/openai.service';
 import { TagController } from '../presentation/controllers/tag.controller';
+import { OpenAiModule } from 'src/infrastructure/openai/openai.module';
 
 @Module({
+  imports: [OpenAiModule],
   controllers: [TagController],
   providers: [
     { provide: 'TagRepository', useClass: TagRepositoryImpl },

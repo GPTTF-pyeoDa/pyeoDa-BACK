@@ -11,7 +11,7 @@ export class TagController {
 
   @Get()
   async getTags(
-    @Query('limit') limit = 10,
+    @Query('limit') limit = 50,
     @Query('offset') offset = 0,
     @Query('search') search?: string,
   ) {
